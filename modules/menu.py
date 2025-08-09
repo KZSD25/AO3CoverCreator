@@ -101,7 +101,7 @@ def mainMenu(coverType, coverEpub, coverFolder, fileName, consolePrint) :
     
     just = 50
     print("\n-------- Main Menu --------")
-    conVar = input("     0) Run Program\n     1) Change Cover Type".ljust(just + 19) + coverType + "\n     2) Save Cover in EPUB (warning)".ljust(just) + str(coverEpub) + "\n     3) Save Cover PNG in Covers Folder".ljust(just) + str(coverFolder) + "\n     4) Change File Name Format (wip)".ljust(just) + fileName + "\n     5) Change Terminal Print Detail".ljust(just) + consolePrint + "\n     Q) Quit\n")
+    conVar = input("0) Run Program\n1) Change Cover Type".ljust(just + 14) + coverType + "\n2) Save Cover in EPUB (warning)".ljust(just) + str(coverEpub) + "\n3) Save Cover PNG in Covers Folder".ljust(just) + str(coverFolder) + "\n4) Change File Name Format (wip)".ljust(just) + fileName + "\n5) Change Terminal Print Detail".ljust(just) + consolePrint + "\nQ) Quit\n")
     
     sel = -1
     try :
@@ -171,7 +171,7 @@ def menuChangeCoverType(coverType) :
 
 #start menu > main menu > submenu: save cover in epub
 def menuSaveCoverEpub(coverEpub) :
-    conVar = input("\nSave Cover in EPUB".ljust(43) + "Saved Setting: " + str(coverEpub) + "\nWARNING: this will overwrite existing covers" + "\n     1) Yes: created covers will save as 'cover.jpg' in the EPUB metadata\n     2) No: created covers will not save in the EPUB\n")
+    conVar = input("\nSave Cover in EPUB".ljust(43) + "Saved Setting: " + str(coverEpub) + "\nWARNING: this will overwrite existing covers\n         this only works for files with a cover already (like Calibre's default cover)\n     1) Yes: created covers will save as 'cover.jpg' in the EPUB metadata\n     2) No: created covers will not save in the EPUB\n")
 
     loop = True
 

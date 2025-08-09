@@ -37,7 +37,7 @@ It may be possible to run on other machines, but it has not been tested.
 
 ## Downloading the Program
 
-Download the "Source code.zip", under Assets, in [download](https://github.com/KZSD25/AO3CoverCreator/releases)
+Download the "Source code.zip", under Assets, in [releases](https://github.com/KZSD25/AO3CoverCreator/releases)
 
 
 ## Running the Program
