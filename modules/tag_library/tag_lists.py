@@ -1,0 +1,421 @@
+LIST_RATING_E = [
+    #<dc:subject>Explicit</dc:subject>
+    'archiveofourown.org/tags/explicit">',
+    #e
+    'rating: e',
+    'rating:  e',
+    'rating:</b> e<',
+    'rating:</b>  e<',
+    'rating:</strong> e<',
+    'rating:</strong>  e<',
+    'rating: fiction e',
+    'rating:  fiction  e',
+    'rating:</b> fiction e<',
+    'rating:</b>  fiction  e<',
+    'rating:</strong> fiction e<',
+    'rating:</strong>  fiction  e<',
+    'rated: e',
+    'rated:  e',
+    'rated:</b> e<',
+    'rated:</b>  e<',
+    'rated:</strong> e<',
+    'rated:</strong>  e<',
+    'rated: fiction e',
+    'rated:  fiction  e',
+    'rated:</b> fiction e<',
+    'rated:</b>  fiction  e<',
+    'rated:</strong> fiction e<',
+    'rated:</strong>  fiction  e<',
+    #explicit
+    'rating: explicit',
+    'rating:  explicit',
+    'rating:</b> explicit',
+    'rating:</b>  explicit',
+    'rating:</strong> explicit',
+    'rating:</strong>  explicit',
+    'rated: explicit',
+    'rated:  explicit',
+    'rated:</b> explicit',
+    'rated:</b>  explicit',
+    'rated:</strong> explicit',
+    'rated:</strong>  explicit',
+]
+LIST_RATING_M = [
+    #<dc:subject>Mature</dc:subject>
+    'archiveofourown.org/tags/mature">',
+    #m
+    'rating: m',
+    'rating:  m',
+    'rating:</b> m<',
+    'rating:</b>  m<',
+    'rating:</strong> m<',
+    'rating:</strong>  m<',
+    'rating: fiction m',
+    'rating:  fiction  m',
+    'rating:</b> fiction m<',
+    'rating:</b>  fiction  m<',
+    'rating:</strong> fiction m<',
+    'rating:</strong>  fiction  m<',
+    'rated: m',
+    'rated:  m',
+    'rated:</b> m<',
+    'rated:</b>  m<',
+    'rated:</strong> m<',
+    'rated:</strong>  m<',
+    'rated: fiction m',
+    'rated:  fiction  m',
+    'rated:</b> fiction m<',
+    'rated:</b>  fiction  m<',
+    'rated:</strong> fiction m<',
+    'rated:</strong>  fiction  m<',
+    #mature
+    'rating: mature',
+    'rating:  mature',
+    'rating:</b> mature',
+    'rating:</b>  mature',
+    'rating:</strong> mature',
+    'rating:</strong>  mature',
+    'rated: mature',
+    'rated:  mature',
+    'rated:</b> mature',
+    'rated:</b>  mature',
+    'rated:</strong> mature',
+    'rated:</strong>  mature',
+]
+LIST_RATING_T = [
+    #<dc:subject>Teen And Up Audiences</dc:subject>
+    'archiveofourown.org/tags/teen%20and%20up%20audiences">',
+    'archiveofourown.org/tags/teen and up audiences">',
+    #t
+    'rating: t',
+    'rating:  t',
+    'rating:</b> t<',
+    'rating:</b>  t<',
+    'rating:</strong> t<',
+    'rating:</strong>  t<',
+    'rating: fiction t',
+    'rating:  fiction  t',
+    'rating:</b> fiction t<',
+    'rating:</b>  fiction  t<',
+    'rating:</strong> fiction t<',
+    'rating:</strong>  fiction  t<',
+    'rated: t',
+    'rated:  t',
+    'rated:</b> t<',
+    'rated:</b>  t<',
+    'rated:</strong> t<',
+    'rated:</strong>  t<',
+    'rated: fiction t',
+    'rated:  fiction  t',
+    'rated:</b> fiction t<',
+    'rated:</b>  fiction  t<',
+    'rated:</strong> fiction t<',
+    'rated:</strong>  fiction  t<',
+    #teen
+    'rating: teen',
+    'rating:  teen',
+    'rating:</b> teen',
+    'rating:</b>  teen',
+    'rating:</strong> teen',
+    'rating:</strong>  teen',
+    'rated: teen',
+    'rated:  teen',
+    'rated:</b> teen',
+    'rated:</b>  teen',
+    'rated:</strong> teen',
+    'rated:</strong>  teen',
+]
+LIST_RATING_G = [
+    #<dc:subject>General Audiences</dc:subject>
+    'archiveofourown.org/tags/general%20audiences">',
+    'archiveofourown.org/tags/general audiences">',
+    #g
+    'rating: g',
+    'rating:  g',
+    'rating:</b> g<',
+    'rating:</b>  g<',
+    'rating:</strong> g<',
+    'rating:</strong>  g<',
+    'rating: fiction g',
+    'rating:  fiction  g',
+    'rating:</b> fiction g<',
+    'rating:</b>  fiction  g<',
+    'rating:</strong> fiction g<',
+    'rating:</strong>  fiction  g<',
+    'rated: g',
+    'rated:  g',
+    'rated:</b> g<',
+    'rated:</b>  g<',
+    'rated:</strong> g<',
+    'rated:</strong>  g<',
+    'rated: fiction g',
+    'rated:  fiction  g',
+    'rated:</b> fiction g<',
+    'rated:</b>  fiction  g<',
+    'rated:</strong> fiction g<',
+    'rated:</strong>  fiction  g<',
+    #k
+    'rating: k',
+    'rating:  k',
+    'rating:</b> k<',
+    'rating:</b>  k<',
+    'rating:</strong> k<',
+    'rating:</strong>  k<',
+    'rating: fiction k',
+    'rating:  fiction  k',
+    'rating:</b> fiction k<',
+    'rating:</b>  fiction  k<',
+    'rating:</strong> fiction k<',
+    'rating:</strong>  fiction  k<',
+    'rated: k',
+    'rated:  k',
+    'rated:</b> k<',
+    'rated:</b>  k<',
+    'rated:</strong> k<',
+    'rated:</strong>  k<',
+    'rated: fiction k',
+    'rated:  fiction  k',
+    'rated:</b> fiction k<',
+    'rated:</b>  fiction  k<',
+    'rated:</strong> fiction k<',
+    'rated:</strong>  fiction  k<',
+    #k+
+    'rating: k+',
+    'rating:  k+',
+    'rating:</b> k+<',
+    'rating:</b>  k+<',
+    'rating:</strong> k+<',
+    'rating:</strong>  k+<',
+    'rating: fiction k+',
+    'rating:  fiction  k+',
+    'rating:</b> fiction k+<',
+    'rating:</b>  fiction  k+<',
+    'rating:</strong> fiction k+<',
+    'rating:</strong>  fiction  k+<',
+    'rated: k+',
+    'rated:  k+',
+    'rated:</b> k+<',
+    'rated:</b>  k+<',
+    'rated:</strong> k+<',
+    'rated:</strong>  k+<',
+    'rated: fiction k+',
+    'rated:  fiction  k+',
+    'rated:</b> fiction k+<',
+    'rated:</b>  fiction  k+<',
+    'rated:</strong> fiction k+<',
+    'rated:</strong>  fiction  k+<',
+    #gen(eral)
+    'rating: gen',
+    'rating:  gen'
+    'rating:</b> gen',
+    'rating:</b>  gen',
+    'rating:</strong> gen',
+    'rating:</strong>  gen',
+    'rated: gen',
+    'rated:  gen',
+    'rated:</b> gen',
+    'rated:</b>  gen',
+    'rated:</strong> gen',
+    'rated:</strong>  gen',
+]
+LIST_RATING_NR = [
+    #<dc:subject>Not Rated</dc:subject>
+]
+LIST_COMPLETE = [
+    #<dc:subject></dc:subject> #no AO3 tag
+
+    #complete(d)
+    'status: complete',
+    'status:  complete',
+    'status:</b> complete',
+    'status:</b>  complete',
+    'status:</strong> complete',
+    'status:</strong>  complete',
+    
+]
+LIST_INCOMPLETE = [
+    #<dc:subject></dc:subject> #no AO3 tag
+
+    #incomplete
+    'status: incomplete',
+    'status:  incomplete',
+    'status:</b> incomplete',
+    'status:</b>  incomplete',
+    'status:</strong> incomplete',
+    'status:</strong>  incomplete',
+
+    #in-progress (in progress)
+    'status: in-progress',
+    'status: in progress',
+    'status:  in-progress',
+    'status:  in  progress',
+    'status:</b> in-progress',
+    'status:</b> in progress',
+    'status:</b>  in-progress',
+    'status:</b>  in  progress',
+    'status:</strong> in-progress',
+    'status:</strong> in progress',
+    'status:</strong>  in-progress',
+    'status:</strong>  in  progress',
+
+    #ongoing
+    'status: ongoing',
+    'status:  ongoing',
+    'status:</b> ongoing'
+    'status:</b>  ongoing',
+    'status:</strong> ongoing',
+    'status:</strong>  ongoing',
+]
+LIST_WARNING_W = [
+    #<dc:subject>Graphic Depictions Of Violence</dc:subject>
+    #<dc:subject>Major Character Death</dc:subject>
+    #<dc:subject>Rape/Non-Con</dc:subject>
+    #<dc:subject>Underage</dc:subject>
+    'archiveofourown.org/tags/graphic%20depictions%20of%20violence">',
+    'archiveofourown.org/tags/major%20character%20death">',
+    'archiveofourown.org/tags/graphic depictions of violence">',
+    'archiveofourown.org/tags/major character death">',
+    'archiveofourown.org/tags/rape*s*non-con">',
+    'archiveofourown.org/tags/underage">',
+
+    'warnings: rape/non-con',
+    'warnings: graphic depictions of violence',
+    'warnings: major character death',
+    'warnings: underage',
+    'warnings:  rape/non-con',
+    'warnings:  graphic  depictions  of  violence',
+    'warnings:  major  character  death',
+    'warnings:  underage',
+    'warnings:</b> rape/non-con',
+    'warnings:</b> graphic depictions of violence',
+    'warnings:</b> major character death',
+    'warnings:</b> underage',
+    'warnings:</b>  rape/non-con',
+    'warnings:</b>  graphic  depictions  of  violence',
+    'warnings:</b>  major  character  death',
+    'warnings:</b>  underage',
+    'warnings:</strong> rape/non-con',
+    'warnings:</strong> graphic depictions of violence',
+    'warnings:</strong> major character death',
+    'warnings:</strong> underage',
+    'warnings:</strong>  rape/non-con',
+    'warnings:</strong>  graphic  depictions  of  violence',
+    'warnings:</strong>  major  character  death',
+    'warnings:</strong>  underage',
+    
+]
+LIST_WARNING_C = [
+    #<dc:subject>Choose Not To Use Archive Warnings</dc:subject>
+    'archiveofourown.org/tags/choose%20not%20to%20use%20archive%20warnings">',
+    'archiveofourown.org/tags/choose not to use archive warnings">',
+
+    'warnings: creator chose not to use archive warnings',
+    'warnings:  creator  chose  not  to  use  archive  warnings',
+    'warnings:</b> creator chose not to use archive warnings',
+    'warnings:</b>  creator  chose  not  to  use  archive  warnings',
+    'warnings:</strong> creator chose not to use archive warnings',
+    'warnings:</strong>  creator  chose  not  to  use  archive  warnings',
+    
+]
+LIST_WARNING_N = [
+    #<dc:subject>No Archive Warnings Apply</dc:subject>
+    'archiveofourown.org/tags/no%20archive%20warnings%20apply">',
+    'archiveofourown.org/tags/no archive warnings apply">',
+    
+    'warnings: no archive warnings apply',
+    'warnings:  no  archive  warnings  apply',
+    'warnings:</b> no archive warnings apply',
+    'warnings:</b>  no  archive  warnings  apply',
+    'warnings:</strong> no archive warnings apply',
+    'warnings:</strong>  no archive  warnings  apply',
+]
+LIST_REL_OTHER = [
+    #<dc:subject>Other</dc:subject>
+    'archiveofourown.org/tags/other">',
+    'genre:</b> other',
+    'genre:</b> f/m, other',
+    'genre:</b> f/f, other',
+    'genre:</b> m/m, other',
+    'genre:</b> multi, other',
+    'genre:</strong> other',
+    'genre:</strong> f/m, other',
+    'genre:</strong> f/f, other',
+    'genre:</strong> m/m, other',
+    'genre:</strong> multi, other',
+    'genre: other',
+    'genre: f/m, other',
+    'genre: f/f, other',
+    'genre: m/m, other',
+    'genre: multi, other',
+    'genre:</b>  other',
+    'genre:</b>  f/m,  other',
+    'genre:</b>  f/f,  other',
+    'genre:</b>  m/m,  other',
+    'genre:</b>  multi,  other',
+    'genre:</strong>  other',
+    'genre:</strong>  f/m,  other',
+    'genre:</strong>  f/f,  other',
+    'genre:</strong>  m/m,  other',
+    'genre:</strong>  multi,  other',
+    'genre:  other',
+    'genre:  f/m,  other',
+    'genre:  f/f,  other',
+    'genre:  m/m,  other',
+    'genre:  multi,  other',
+]
+LIST_REL_FF = [
+    #<dc:subject>F/F</dc:subject>
+    'archiveofourown.org/tags/f*s*f">',
+    
+    'genre: f/f',
+    'genre:  f/f',
+    'genre:</b> f/f',
+    'genre:</b>  f/f',
+    'genre:</strong> f/f',
+    'genre:</strong>  f/f',
+    
+]
+LIST_REL_MM = [
+    #<dc:subject>M/M</dc:subject>
+    'archiveofourown.org/tags/m*s*m">',
+    
+    'genre: m/m',
+    'genre:  m/m',
+    'genre:</b> m/m',
+    'genre:</b>  m/m',
+    'genre:</strong> m/m',
+    'genre:</strong>  m/m',
+]
+LIST_REL_FM = [
+    #<dc:subject>F/M</dc:subject>
+    'archiveofourown.org/tags/f*s*m">',
+    
+    'genre: f/m',
+    'genre:  f/m',
+    'genre:</b> f/m',
+    'genre:</b>  f/m',
+    'genre:</strong> f/m',
+    'genre:</strong>  f/m',
+]
+LIST_REL_MULTI = [
+    #<dc:subject>Multi</dc:subject>
+    'archiveofourown.org/tags/multi">',
+    
+    'genre: multi',
+    'genre:  multi',
+    'genre:</b> multi',
+    'genre:</b>  multi',
+    'genre:</strong> multi',
+    'genre:</strong>  multi',
+]
+LIST_REL_GEN = [
+    #<dc:subject>Gen</dc:subject>
+    'archiveofourown.org/tags/gen">',
+    
+    'genre: gen',
+    'genre:  gen',
+    'genre:</b> gen',
+    'genre:</b>  gen',
+    'genre:</strong> gen',
+    'genre:</strong>  gen',
+]

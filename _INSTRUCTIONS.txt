@@ -1,0 +1,145 @@
+--------------------------------------- AO3 Cover Creator ---------------------------------------
+
+The AO3 Cover Creator is a command line python program that takes EPUB files and creates a cover. The program:
+     - Uses the command prompt as the UI
+     - Reads EPUB files in the 'Books' folder
+     - Creates a copy of the EPUB file in the 'Copies' folder, renaming: "[author] - [title] - [update date].epub"
+     - Creates a PNG image cover with the original posting site, title, author, and the AO3 tag symbols for rating, pairing, archive warning, and completeness
+     - If the EPUB already has a cover (such as the Calibre default cover), save the generated PNG image cover into the copied EPUB file
+     - Creates a list of files that the program could not read, and copies the files into the 'ErrorList' folder
+
+The program is designed for the EPUB files that are provided to download on AO3. The program can accommodate some other sources of EPUB, such as EPUBs created from the FanFicFare Calibre plugin. Not every EPUB file is fully supported.
+
+CAUTION: When this program saves a cover into an EPUB, it will overwrite (delete) any original cover. (The original EPUB in the 'Books' folder will still have the original cover.)
+
+
+------------- Requirements -------------
+
+1) Python v3 (or above)
+2) Pillow 11.3.0 (https://pypi.org/project/pillow/)
+3) EbookLib 0.18 (https://pypi.org/project/EbookLib/)
+4) ebookmeta 1.2.11 (https://pypi.org/project/ebookmeta/)
+5) os, shutil, fnmatch, datetime, sys, re, io, uuid, json (Python Standard Library)
+
+Known OS Compatibility
+     - Windows 10
+     - Linux Mint 22
+
+
+------------- Installation Requirements -------------
+
+1) For Python, please search how to install, or follow the instructions found here: https://realpython.com/installing-python/
+2) Pillow, EbookLib, and ebookmeta are included in the AO3CoverCreator program, and do not need to be installed
+3) The Python Standard Library will usually be included in your python installation
+
+
+------------- Installing the Program -------------
+
+Download the "Source code.zip", under Assets, in https://github.com/KZSD25/AO3CoverCreator/releases.
+
+
+------------- Running the Program -------------
+
+1) Extract the .zip file. Place the "AO3CoverCreator" folder somewhere on your computer. Do not remove or re-name any files or folders that are inside.
+
+2) Place EPUB files in the 'Books' folder. It is recommended that you copy-paste files into the folder, and keep your original files safe.
+     a) The 'Books' folder is the only place the program will look for files
+     b) The program will only read EPUB files--files that end in ".epub"
+
+3) Open the command console (in the Windows search bar, search "cmd")
+
+4) In the command console, navigate to the 'AO3CoverCreator' folder
+
+5) Run the python file by pasting the following into the command console, depending on the OS and python installation type:
+
+     a) Windows (version 1)
+
+py AO3CoverCreator.py
+
+     b) Windows (version 2)
+
+python AO3CoverCreator.py
+
+     c) Linux / MacOS
+
+python3 AO3CoverCreator.py
+
+6) If successfully run, a message will appear: "Starting AO3 EPUB Cover Creator"
+
+7) Follow the prompts as they appear, typing into the command console
+
+8) When the program is done, a message will appear: "All Files Complete"
+
+     - A copy of successful files will be in the 'Copies' folder.
+     - A PNG cover image for successful files will be in the 'Covers' folder.
+     - Both the EPUB copy in 'Copies' and the PNG cover in 'Covers' will have the same file name.
+     - If able, the PNG cover image will be saved into the copied EPUB.
+     - A copy of unsuccessful files will be in the 'ErrorList' folder.
+     - A TXT file is created with a list of the file names that were unsuccessful. The file is named with the date and time the program completed the run.
+
+9) To exit the program while in the menu, type "q" or "quit"
+
+
+------------- Preparing EPUB Files to Save the Covers Directly into the EPUB Files -------------
+
+If an EPUB file does not have a cover image, the simplest way to mass-prepare EPUBs with cover images is to use Calibre (https://calibre-ebook.com)
+
+1) Open Calibre
+
+2) Upload EPUB files into Calibre - it is recommended you create a new library, so that you do not interfere with your other books
+
+3) Select the EPUB files in Calibre
+
+4) Click the down arrow next to "Edit metadata", then click "Edit metadata in bulk"
+
+5) Under "Change cover", click "Generate default cover"
+
+6) Click "OK"
+
+7) Select the EPUB files in Calibre, again
+
+8) Click the down arrow next to "Save to disk", then click "Save to disk in single folder"
+
+9) Navigate to the 'Books' folder in the AO3CoverCreator, click "Select folder"
+
+10) (optional) The OPF and JPG files can be deleted from the 'Books' folder in the AO3CoverCreator
+
+
+------------- Fanfiction Downloader Sources -------------
+
+EPUB files downloaded from these sources have been tested with this program.
+
+- Archive of Our Own EPUB Downloader
+- FanFicFare (Calibre plugin)
+- FicHub (and FicHubCLI) (https://fichub.net/)
+- FicSave (http://ficsave.com/ - DEAD WEBSITE)
+
+
+------------- Default Settings -------------
+
+The file "settings.json" allows settings to be saved. This file can be directly edited, but it not recommended.
+
+Settings Include:
+
+- Cover Type: selecting between dark mode and light mode covers
+- Save Covers in EPUB: if the created cover is saved into the EPUB file
+- Save Covers in Folder: if a copy of the created cover is saved into the "Covers" folder
+- File Name: not yet implemented
+- Console Print Detail: how detailed the terminal/console prints information about each file being processed
+
+Default JSON Settings:
+
+{
+    "cover-type": "light",
+    "save-covers-in-epub": true,
+    "save-covers-in-folder": false,
+    "file-name": "author-title-date",
+    "console-printout": "full"
+}
+
+
+------------- Wishlist (features not yet included) -------------
+
+1) Saving the created cover directly into the EPUB file without needing to have a cover, first
+2) Saving the created cover alongside any original cover (so that it does not overwrite the original cover file)
+3) (optional) Adding series information on the cover or filename (potentially AO3-only)

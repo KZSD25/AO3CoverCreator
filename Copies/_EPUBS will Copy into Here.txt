@@ -1,0 +1,1 @@
+The AO3 Cover Creator program will copy EPUBs into the Copies folder.

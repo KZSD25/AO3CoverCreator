@@ -1,0 +1,1 @@
+The AO3 Cover Creator program will copy error EPUBs in the ErrorList folder.
