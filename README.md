@@ -17,7 +17,7 @@ The program is designed for the EPUB files that are downloaded directly from AO3
 * Pillow 11.3.0 (https://pypi.org/project/pillow/)
 * EbookLib 0.18 (https://pypi.org/project/EbookLib/)
 * ebookmeta 1.2.11 (https://pypi.org/project/ebookmeta/)
-* os, shutil, fnmatch, datetime (Python Standard Library)
+* os, re, io, sys, bs4, json, uuid, shutil, fnmatch, datetime, zipfile, warnings (Python Standard Library)
 
 
 ## Tested OSes
@@ -107,4 +107,5 @@ If an EPUB file does not have a cover image, the simplest way to mass-prepare EP
 3) Testing the program on Mac and Windows 11
 4) Adding more support for non-AO3 EPUB sources
 5) Adding more support for FanFicFare EPUBs
-6) Update EbookLib in 'libraries' to current version (0.19) and adjust code as needed
+6) Check support for Cyrillic characters (and other languages)
+7) Update EbookLib in 'libraries' to current version (0.19) and adjust code as needed

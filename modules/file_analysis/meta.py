@@ -9,6 +9,8 @@ from ..cover_creation.text import cleanDate, cleanChapters
 
 #------------------------------------------------------------------------------------
 
+# -------------- Miscellaneous Functions --------------
+
 #get most recent complete or update date from page contents
 def getDate(pageData, d) :
     td = ""
@@ -18,13 +20,13 @@ def getDate(pageData, d) :
         end = loc + 35
         td = pageData[loc:end]
         td = cleanDate(td)
-    elif 'last updated on:' in pageData.lower() :
-        loc = pageData.lower().find('last updated on:')
+    elif 'updated on:' in pageData.lower() :
+        loc = pageData.lower().find('updated on:')
         end = loc + 35
         td = pageData[loc:end]
         td = cleanDate(td)
     elif 'published:' in pageData.lower() :
-        loc = pageData.find('Published:')
+        loc = pageData.lower().find('published:')
         end = loc + 35
         td = pageData[loc:end]
         td = cleanDate(td)
@@ -38,6 +40,66 @@ def getDate(pageData, d) :
         d = td
 
     return d
+
+#get AO3, FFN, WTT, LJ, TBL from page contents
+def getSource(pageData, source) :
+    if 'fanfiction.net' in pageData.lower() :
+        source = "FFN"
+    elif 'archiveofourown.org' in pageData.lower() :
+        source = "AO3"
+    elif 'wattpad' in pageData.lower() :
+        source = "WTT"
+    elif 'livejournal.com' in pageData.lower() :
+        source = "LJ"
+    elif 'tumblr.com/post/' in pageData.lower() :
+        source = "TBL"
+
+    return source
+
+#get AO3, FFN, WTT, LJ, TBL from publisher metadata
+def getSourcePublisher(book) :
+    src = ""
+
+    if 'fanfiction.net' in book.get_metadata('DC', 'publisher')[0][0].lower() :
+        src = "FFN"
+    elif 'archiveofourown.org' in book.get_metadata('DC', 'publisher')[0][0].lower() :
+        src = "AO3"
+    elif 'wattpad.com' in book.get_metadata('DC', 'publisher')[0][0].lower() :
+        src = "WTT"
+    elif 'livejournal.com' in book.get_metadata('DC', 'publisher')[0][0].lower() :
+        src = "LJ"
+    elif 'tumblr.com' in book.get_metadata('DC', 'publisher')[0][0].lower() :
+        src = "TBL"
+    
+    return src
+
+#get relationship from AO3 tags compared against subject metadata
+def getTagsRelationship(book, relationship) :
+    tags = book.get_metadata('DC', 'subject') # tags
+    
+    for tag in tags :
+        if tag[0] == 'F/F' :
+            #F/F
+            relationship.append("F/F")
+        if tag[0] == 'M/M' :
+            #M/M
+            relationship.append("M/M")
+        if tag[0] == 'Multi' :
+            #Multi
+            relationship.append("Multi")
+        if tag[0] == 'Gen' :
+            #Gen
+            relationship.append("Gen")
+        if tag[0] == 'F/M' :
+            #F/M
+            relationship.append("F/M")
+        # if tag[0] == 'Other' : # possible to have an "other" tag and not mean a relationship
+        #     #Other
+        #     relationship.append("Other")
+    
+    return relationship
+
+# -------------- List Functions --------------
 
 #get complete status from master list compared against page contents
 def getListComplete(pageData, complete) :
@@ -135,55 +197,7 @@ def getListWarning(pageData, warning, source) :
 
     return warning
 
-#get AO3, FFN, or WTT from page contents
-def getSource(pageData, source) :
-    if 'fanfiction.net' in pageData.lower() :
-        source = "FFN"
-    elif 'archiveofourown.org' in pageData.lower() :
-        source = "AO3"
-    elif 'wattpad' in pageData.lower() :
-        source = "WTT"
-
-    return source
-
-#get AO3, FFN, or WTT from publisher metadata
-def getSourcePublisher(book) :
-    src = ""
-
-    if 'fanfiction.net' in book.get_metadata('DC', 'publisher')[0][0].lower() :
-        src = "FFN"
-    elif 'archiveofourown.org' in book.get_metadata('DC', 'publisher')[0][0].lower() :
-        src = "AO3"
-    elif 'wattpad.com' in book.get_metadata('DC', 'publisher')[0][0].lower() :
-        src = "WTT"
-    
-    return src
-
-#get relationship from AO3 tags compared against subject metadata
-def getTagsRelationship(book, relationship) :
-    tags = book.get_metadata('DC', 'subject') # tags
-    
-    for tag in tags :
-        if tag[0] == 'F/F' :
-            #F/F
-            relationship.append("F/F")
-        if tag[0] == 'M/M' :
-            #M/M
-            relationship.append("M/M")
-        if tag[0] == 'Multi' :
-            #Multi
-            relationship.append("Multi")
-        if tag[0] == 'Gen' :
-            #Gen
-            relationship.append("Gen")
-        if tag[0] == 'F/M' :
-            #F/M
-            relationship.append("F/M")
-        # if tag[0] == 'Other' : # possible to have an "other" tag and not mean a relationship
-        #     #Other
-        #     relationship.append("Other")
-    
-    return relationship
+# -------------- AO3 URL/Tag Functions --------------
 
 #get complete status from AO3 tags compared against page contents
 def getAO3Complete(pageData) :
@@ -267,6 +281,8 @@ def getAO3Warning(pageData, warning) :
     #archiveofourown.org/tags/No%20Archive%20Warnings%20Apply"> no warning
 
     return warning
+
+# -------------- User Tag Functions --------------
 
 #get complete status from list of user tags compared against subject metadata
 def userTagsComplete(book) :

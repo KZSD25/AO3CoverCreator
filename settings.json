@@ -3,5 +3,6 @@
     "save-covers-in-epub": true,
     "save-covers-in-folder": false,
     "file-name": "author-title-date",
-    "console-printout": "full"
+    "console-printout": "full",
+    "cover-method": "calibre cover"
 }

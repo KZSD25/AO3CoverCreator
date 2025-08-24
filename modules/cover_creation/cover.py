@@ -1,15 +1,16 @@
 #FUNCTIONS TO CREATE A COVER --------------------------------------------------------
 
 # Python Standard Library
+import warnings
 import shutil
 import re
 import io
+import os
+from zipfile import ZipFile
+from bs4 import BeautifulSoup, Tag, XMLParsedAsHTMLWarning
 
 # in './libraries'
-import PIL
 from PIL import Image, ImageDraw, ImageFont
-import ebooklib
-from ebooklib import epub
 import ebookmeta
 
 from .text import composeFilenames
@@ -101,6 +102,10 @@ def createCoverImage(source, relationship, warning, rating, complete, t, a, dark
         source_tile = Image.open("./images/_ffn.png")
     elif source == "WTT" :
         source_tile = Image.open("./images/_wtt.png")
+    elif source == "LJ" :
+        source_tile = Image.open("./images/_lj.png")
+    elif source == "TBL" :
+        source_tile = Image.open("./images/_tbl.png")
 
     #relationship
     if (len(relationship)) > 1 or "Multi" in relationship :
@@ -238,8 +243,123 @@ def createCoverFile(source, relationship, warning, rating, complete, t, a, d, da
     #close the PIL cover image
     cover.close()
 
+def testCreateCoverFile(source, relationship, warning, rating, complete, t, a, d, darkMode, covers, filename, dir, save, consPrint, coverEpub, coverFolder) :
+    if consPrint :
+        print("Creating cover . . .")
+                
+    cover = createCoverImage(source, relationship, warning, rating, complete, t, a, darkMode)
+
+    if consPrint and coverFolder :
+        print("Saving files . . .")
+
+    #remove non-filename characters and save files
+    coverTitle, new_filename = composeFilenames(a, t, d, consPrint)
+    if coverFolder :
+        cover.save(covers + '/' + coverTitle, format='PNG')
+    #shutil.copy(dir + "/" + filename, save + "/" + new_filename)
+
+    if consPrint and coverEpub :
+        print("Setting cover to copied EPUB . . .    (test method)")
+    
+    #save cover into epub
+    if coverEpub :
+
+        #extract original epub into holder folder
+        holder = "./modules/epub_extract_holder"
+        with ZipFile(dir + "/" + filename, "r") as zip_ref:
+            zip_ref.extractall(holder)
+
+        #beautifulsoup's lxml parser warning - comment out if bug fixes are necessary
+        warnings.filterwarnings('ignore', category=XMLParsedAsHTMLWarning)
+
+        #add <meta> and <item> in .opf file
+        for path, folders, files in os.walk(holder) :
+            for file in files:
+                #print(file)
+                if file.endswith(".opf") :
+                    checkCover = False
+
+                    #save cover into folder with .opf
+                    if not any('cover.png' in x for x in files) :
+                        cover.save(path + '/cover.png', format='PNG')
+                        checkCover = True
+                    else :
+                        cover.save(path + '/cover_ao3.png', format='PNG')
+
+                    #edit soup
+                    print(file)
+                    with open(os.path.join(path, file), "r", encoding="utf-8") as f:
+                        soup = BeautifulSoup(f.read(), features="lxml")
+                        #print(soup)
+
+                        checkMeta = soup.find("meta", {"content": "cover-image"})
+                        if checkMeta == '' or checkMeta == None :
+                            new_meta = Tag(builder=soup.builder, name='meta', attrs={'name':'cover','content':'cover-image'})
+                            soup.find("metadata").append(new_meta)
+                            #print(new_meta)
+                        
+                        checkManif = soup.find("item", {"id": "cover-image"})
+                        if checkManif == '' or checkManif == None:
+                            if checkCover :
+                                new_manif = Tag(builder=soup.builder, name='item', attrs={'id':'cover-image','properties':'cover-image', 'href':'cover.png', 'media-type':'image/png'})
+                            else :
+                                new_manif = Tag(builder=soup.builder, name='item', attrs={'id':'cover-image','properties':'cover-image', 'href':'cover_ao3.png', 'media-type':'image/png'})
+                            soup.find("manifest").append(new_manif)
+                            #print(new_manif)
+
+                        #print(soup)
+                
+                    #save soup edits
+                    with open(os.path.join(path, file), "w") as f:
+                        f.write(str(soup))
+        
+        #save new epub
+        saveName = save + '/' + new_filename.replace('.epub', '')
+        shutil.make_archive(saveName, 'zip', holder)
+        os.rename(saveName + '.zip', saveName + '.epub')
+        
+        #clean holder folder
+        for file in os.listdir(holder):
+            file_path = os.path.join(holder, file)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                if consPrint :
+                    print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+    #close the PIL cover image
+    cover.close()
+
 #save file if both coverEpub and coverFolder are False
 def saveCopyEpub(t, a, d, filename, dir, save, consPrint) :
     #remove non-filename characters and save files
     coverTitle, new_filename = composeFilenames(a, t, d, consPrint)
     shutil.copy(dir + "/" + filename, save + "/" + new_filename)
+
+
+#save cover based on settings
+def saveCover(source, relationship, warning, rating, complete, t, a, d, darkMode, covers, filename, dir, save, consPrint, coverEpub, coverFolder, cvMethod) :
+    if coverEpub or coverFolder :
+        if cvMethod :
+            createCoverFile(source, relationship, warning, rating, complete, t, a, d, darkMode, covers, filename, dir, save, consPrint, coverEpub, coverFolder)
+        else :
+            testCreateCoverFile(source, relationship, warning, rating, complete, t, a, d, darkMode, covers, filename, dir, save, consPrint, coverEpub, coverFolder)
+    else :
+        saveCopyEpub(t, a, d, filename, dir, save, consPrint)
+
+# --------------------
+# ebook data that sets cover images
+# (append to metadata and append to manifest of .opf file)
+# ebooklib loses <head> when 'editing' epubs, and so cannot be used
+# ebookmeta needs the <meta> and <item> html to exist for the cover, first, and overwrites it
+#
+# content.opf/book.opf/epb.opf
+#     <metadata>
+#          <meta name="cover" content="cover-image"/>
+#     </metadata>
+#     <manifest>
+#          <item id="cover-image" properties="cover-image" href="media/cover.png" media-type="image/png"/>
+#     </manifest>

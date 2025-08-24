@@ -18,6 +18,7 @@ def startMenu(dir) :
     coverFolder = False
     fileName = ""
     consolePrint = ""
+    coverMethod = ""
     with open(filename, 'r') as file :
         settings = json.load(file)
         coverType = settings['cover-type']
@@ -25,6 +26,8 @@ def startMenu(dir) :
         coverFolder = settings['save-covers-in-folder']
         fileName = settings['file-name']
         consolePrint = settings['console-printout']
+        coverMethod = settings['cover-method']
+
 
     #program start
     print ("\n-------- Starting AO3 EPUB Cover Creator --------\n")
@@ -37,13 +40,13 @@ def startMenu(dir) :
     loop = True
     while loop :
         #main menu
-        conVar = mainMenu(coverType, coverEpub, coverFolder, fileName, consolePrint)
+        conVar = mainMenu(coverType, coverEpub, coverFolder, fileName, consolePrint, coverMethod)
 
         #menu select
         if conVar.lower() == "q" or conVar.lower() == "quit" :
             quit()
         elif conVar != "0" :
-            coverType, coverEpub, coverFolder, fileName, consolePrint = mainMenuSelect(conVar, coverType, coverEpub, coverFolder, fileName, consolePrint)
+            coverType, coverEpub, coverFolder, fileName, consolePrint, coverMethod = mainMenuSelect(conVar, coverType, coverEpub, coverFolder, fileName, consolePrint, coverMethod)
         else :
             loop = False
 
@@ -59,6 +62,7 @@ def startMenu(dir) :
         settings['save-covers-in-folder'] = coverFolder
         settings['file-name'] = fileName
         settings['console-printout'] = consolePrint
+        settings['cover-method'] = coverMethod
 
     # create randomly named temporary file (to avoid interference with other thread/asynchronous request)
     tempfile = os.path.join(os.path.dirname(filename), str(uuid.uuid4()))
@@ -78,8 +82,12 @@ def startMenu(dir) :
         consPrint = True
     elif consolePrint == "summary" :
         consPrint = False
+    if coverMethod == "calibre cover" :
+        cvMethod = True
+    elif coverMethod == "test method" :
+        cvMethod = False
 
-    return darkMode, coverEpub, coverFolder, fileName, consPrint
+    return darkMode, coverEpub, coverFolder, fileName, consPrint, cvMethod
 
 #start menu > confirm files in Books folder
 def confirmEpubs(dir) :
@@ -97,11 +105,11 @@ def confirmEpubs(dir) :
             conVar = input(str(len(fnmatch.filter(os.listdir(dir), '*.epub'))) + " EPUB files found. Is this correct?".ljust(40) + "(Y)es\n")
 
 #start menu > main menu
-def mainMenu(coverType, coverEpub, coverFolder, fileName, consolePrint) :
+def mainMenu(coverType, coverEpub, coverFolder, fileName, consolePrint, coverMethod) :
     
     just = 50
     print("\n-------- Main Menu --------")
-    conVar = input("0) Run Program\n1) Change Cover Type".ljust(just + 14) + coverType + "\n2) Save Cover in EPUB (warning)".ljust(just) + str(coverEpub) + "\n3) Save Cover PNG in Covers Folder".ljust(just) + str(coverFolder) + "\n4) Change File Name Format (wip)".ljust(just) + fileName + "\n5) Change Terminal Print Detail".ljust(just) + consolePrint + "\nQ) Quit\n")
+    conVar = input("0) Run Program\n1) Change Cover Type".ljust(just + 14) + coverType + "\n2) Save Cover in EPUB (warning)".ljust(just) + str(coverEpub) + "\n3) Save Cover PNG in Covers Folder".ljust(just) + str(coverFolder) + "\n4) Change File Name Format (wip)".ljust(just) + fileName + "\n5) Change Terminal Print Detail".ljust(just) + consolePrint + "\n6) Change Cover Save Method".ljust(just) + coverMethod + "\nQ) Quit\n")
     
     sel = -1
     try :
@@ -114,11 +122,11 @@ def mainMenu(coverType, coverEpub, coverFolder, fileName, consolePrint) :
     while loop :
         if conVar.lower() == "q" or conVar.lower() == "quit" :
             quit()
-        elif sel >= 0 and sel <= 5:
+        elif sel >= 0 and sel <= 6:
             loop = False
         else:
             print("\nInput not recognized")
-            conVar = input("Please enter a number 0 through 5\n")
+            conVar = input("Please enter a number 0 through 6\n")
             try :
                 sel = int(conVar)
             except Exception as e :
@@ -127,21 +135,23 @@ def mainMenu(coverType, coverEpub, coverFolder, fileName, consolePrint) :
     return conVar
 
 #start menu > main menu > main menu select
-def mainMenuSelect(conVar, coverType, coverEpub, coverFolder, fileName, consolePrint) :
+def mainMenuSelect(conVar, coverType, coverEpub, coverFolder, fileName, consolePrint, coverMethod) :
 
     match conVar :
         case "1" :
             coverType = menuChangeCoverType(coverType)
         case "2" :
-            coverEpub = menuSaveCoverEpub(coverEpub)
+            coverEpub = menuSaveCoverEpub(coverEpub, coverMethod)
         case "3" :
             coverFolder = menuSaveCoverFolder(coverFolder)
         case "4" :
             fileName = menuFileNameFormat(fileName)
         case "5" :
             consolePrint = menuChangePrintDetail(consolePrint)
+        case "6" :
+            coverMethod = menuChangeCoverMethod(coverMethod)
 
-    return coverType, coverEpub, coverFolder, fileName, consolePrint
+    return coverType, coverEpub, coverFolder, fileName, consolePrint, coverMethod
 
 #start menu > main menu > submenu: change cover type
 def menuChangeCoverType(coverType) :
@@ -170,8 +180,13 @@ def menuChangeCoverType(coverType) :
     return coverType
 
 #start menu > main menu > submenu: save cover in epub
-def menuSaveCoverEpub(coverEpub) :
-    conVar = input("\nSave Cover in EPUB".ljust(43) + "Saved Setting: " + str(coverEpub) + "\nWARNING: this will overwrite existing covers\n         this only works for files with a cover already (like Calibre's default cover)\n     1) Yes: created covers will save as 'cover.jpg' in the EPUB metadata\n     2) No: created covers will not save in the EPUB\n")
+def menuSaveCoverEpub(coverEpub, coverMethod) :
+    if coverMethod == "calibre cover" :
+        warning = "\nWARNING: this will overwrite existing covers\n         this only works for files with a cover already (like Calibre's default cover)\n     "
+    elif coverMethod == "test method" :
+        warning = "\nWARNING: this may compromise the integrity of the epub\n         the test method has been selected, which will attempt to save the cover images to the epub file directly\n     "
+
+    conVar = input("\nSave Cover in EPUB".ljust(43) + "Saved Setting: " + str(coverEpub) + warning + "1) Yes: created covers will save as 'cover.jpg' in the EPUB metadata\n     2) No: created covers will not save in the EPUB\n")
 
     loop = True
 
@@ -225,6 +240,11 @@ def menuSaveCoverFolder(coverFolder) :
 def menuFileNameFormat(fileName) :
 
     print("Work in Progress")
+    #author - title - date
+    #author - series (where exists) - title - date
+    #keep name format of files
+    #name format from Calibre (title - author) / (title, the/a - author)
+    #name format from ao3downloader ()
 
     return fileName
 
@@ -253,6 +273,32 @@ def menuChangePrintDetail(consolePrint) :
         print("Console will print only a summary")
     
     return consolePrint
+
+#start menu > main menu > submenu: change cover method
+def menuChangeCoverMethod(coverMethod) :
+    conVar = input("\nChange Cover Method".ljust(43) + "Saved Setting: " + coverMethod + "\n     1) Calibre Cover: use when placeholder covers already exist, such as a Calibre default cover (recommended)\n     2) Test Method: try to save covers when a placeholder cover does not exist (still under development, but can be tested)\n")
+
+    loop = True
+
+    while loop :
+        if "calibre" in conVar.lower() or conVar == "1" :
+            coverMethod = "calibre cover"
+            loop = False
+        elif "test" in conVar.lower() or conVar == "2" :
+            coverMethod = "test method"
+            loop = False
+        elif conVar.lower() == "q" or conVar.lower() == "quit" :
+            quit()
+        else:
+            print("\nInput not recognized")
+            conVar = input("Please enter '1' for Calibre Cover or '2' for Test Method.\n")
+
+    if coverMethod == "calibre cover" :
+        print("Program will save new covers over existing covers")
+    elif coverMethod == "test method" :
+        print("Program will try to save covers without a pre-existing cover")
+    
+    return coverMethod
 
 # --------------------- END MENU ---------------------
 def endMenu(error_list) :

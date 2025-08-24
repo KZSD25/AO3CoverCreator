@@ -12,7 +12,9 @@
 LIST_USER_TAGS_COMPLETE = [
     ('Status: Complete', "C"),
     ('Status: In-Progress', "W"),
-    ('Status: In Progress', "W")
+    ('Status: In Progress', "W"),
+    ('Status: Ongoing', "W"),
+    ('Status: Incomplete', "W")
 ]
 
 

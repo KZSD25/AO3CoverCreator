@@ -3,33 +3,27 @@
 import ebooklib
 from ebooklib import epub
 
-from ..cover_creation.text import HTMLCharacterSwap, cleanChapters
-from .meta import getAO3Complete, getAO3Rating, getAO3Relationship, getAO3Warning
+from ..cover_creation.text import compareDates
+from .meta import getAO3Complete, getAO3Rating, getAO3Relationship, getAO3Warning, getDate
+from .other_publisher_last_try import getMainMetadata
 
 #------------------------------------------------------------------------------------
 
-#AO3-created EPUB
-def metaAO3(book, warning, relationship, rating, complete, source, consPrint) :
+def metaAO3(book, consPrint) :
     if consPrint :
         print ("AO3 tags found")
 
-    # get book metadata
-    a = book.get_metadata('DC', 'creator')[0][0]
-    t = book.get_metadata('DC', 'title')[0][0]
-    d = book.get_metadata('DC', 'date')[0][0]
-    #tags = book.get_metadata('DC', 'subject') # rating
-    
-    t = HTMLCharacterSwap(t)
-    if "T" in d:
-        d = d.split('T', 1)[0]
-
-    print ("File: " + a + " - " + t + " - " + d)
-
+    #vars
     warning = ""
     relationship = []
     rating = ""
     complete = ""
     source = "AO3"
+    d = ""
+    #date holders for comparison
+    d1, d2 = '', '' #<dc:date>, update
+
+    t, a, d1 = getMainMetadata(book)
 
     # get tag information
     for item in book.get_items():
@@ -41,17 +35,26 @@ def metaAO3(book, warning, relationship, rating, complete, source, consPrint) :
                 pageData = item.get_content() #in bytes
                 pageData = pageData.decode("utf-8") #convert byte to string
 
+                #get dates
+                if d2 == '' :
+                    d2 = getDate(pageData, d2) #most recent update/complete
+
                 #warning
-                warning = getAO3Warning(pageData, warning)
+                if warning == '' :
+                    warning = getAO3Warning(pageData, warning)
 
                 #relationship
                 relationship = getAO3Relationship(pageData, relationship)
                 
                 #rating
-                rating = getAO3Rating(pageData, rating)
+                if rating == '' :
+                    rating = getAO3Rating(pageData, rating)
                 
                 #complete
                 if complete == '' :
                     complete = getAO3Complete(pageData)
+
+    #get dates
+    d = compareDates(d1, d2)
 
     return (source, relationship, warning, rating, complete, t, a, d)

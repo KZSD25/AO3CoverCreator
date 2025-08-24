@@ -5,34 +5,32 @@ from ebooklib import epub
 
 from ..tag_library.tag_lists import LIST_REL_OTHER
 
-from ..cover_creation.text import HTMLCharacterSwap
+from ..cover_creation.text import compareDates
 from .meta import userTagsComplete, getDate, getListComplete, getListRating, getListRelationship
+from .other_publisher_last_try import getMainMetadata
 
 #------------------------------------------------------------------------------------
 
-def metaFFN(book, warning, relationship, rating, complete, source, consPrint) :
+def metaFFN(book, consPrint) :
     if consPrint :
         print("FFN data found")
 
-    # get book metadata
-    a = book.get_metadata('DC', 'creator')[0][0]
-    t = book.get_metadata('DC', 'title')[0][0]
-    try:
-        d = book.get_metadata('DC', 'date')[0][0]
-        d = d.replace("/", "-")
-    except:
-        d = ''
+    #vars
+    warning = "C"
+    relationship = []
+    rating = ""
+    complete = ""
+    source = "FFN"
+    d = ""
+    #date holders for comparison
+    d1, d2 = '', '' #<dc:date>, update
 
-    t = HTMLCharacterSwap(t)
-    if "T" in d:
-        d = d.split('T', 1)[0]
-
-    print ("File: " + a + " - " + t)
+    #get title, author, <dc:date>
+    t, a, d1 = getMainMetadata(book)
 
     # get tag information
     for item in book.get_items():
         if item.get_type() == ebooklib.ITEM_DOCUMENT:
-
             # print(item.get_name()) #page filename
             # print(item.get_content()) #all content of file
 
@@ -43,23 +41,26 @@ def metaFFN(book, warning, relationship, rating, complete, source, consPrint) :
                 if consPrint :
                     print(e)
 
-            #get date
-            d = getDate(pageData, d)
+            #get dates
+            if d2 == '' :
+                d2 = getDate(pageData, d2) #most recent update/complete
 
             #source
-            source = "FFN"
+            #source = "FFN"
 
             #warning
-            warning = "C"
+            #warning = "C"
 
             #relationship
             relationship = getListRelationship(pageData, relationship)
 
             #rating
-            rating = getListRating(pageData, rating)
+            if rating == '' :
+                rating = getListRating(pageData, rating)
 
             #complete
-            complete = getListComplete(pageData, complete)
+            if complete == '' :
+                complete = getListComplete(pageData, complete)
 
     #complete (user-added tags)
     if complete == "" :
@@ -68,5 +69,8 @@ def metaFFN(book, warning, relationship, rating, complete, source, consPrint) :
         except Exception  as e:
             if consPrint :
                 print(e)
+
+    #get dates
+    d = compareDates(d1, d2)
 
     return (source, relationship, warning, rating, complete, t, a, d)

@@ -19,7 +19,8 @@ CAUTION: When this program saves a cover into an EPUB, it will overwrite (delete
 2) Pillow 11.3.0 (https://pypi.org/project/pillow/)
 3) EbookLib 0.18 (https://pypi.org/project/EbookLib/)
 4) ebookmeta 1.2.11 (https://pypi.org/project/ebookmeta/)
-5) os, shutil, fnmatch, datetime, sys, re, io, uuid, json (Python Standard Library)
+5) os, re, io, sys, bs4, json, uuid, shutil, fnmatch, datetime, zipfile, warnings (Python Standard Library)
+
 
 Known OS Compatibility
      - Windows 10
@@ -105,14 +106,28 @@ If an EPUB file does not have a cover image, the simplest way to mass-prepare EP
 10) (optional) The OPF and JPG files can be deleted from the 'Books' folder in the AO3CoverCreator
 
 
+------------- Additional Features -------------
+
+- CJK text support
+
+
 ------------- Fanfiction Downloader Sources -------------
 
 EPUB files downloaded from these sources have been tested with this program.
 
-- Archive of Our Own EPUB Downloader
+- Archive of Our Own native EPUB Downloader
 - FanFicFare (Calibre plugin)
 - FicHub (and FicHubCLI) (https://fichub.net/)
 - FicSave (http://ficsave.com/ - DEAD WEBSITE)
+
+
+------------- Fanfiction Downloader Sources -------------
+
+EPUB files downloaded from these sites have been tested with this program.
+
+- Archive of Our Own
+- Fanfiction.net
+- Wattpad
 
 
 ------------- Default Settings -------------
@@ -134,7 +149,8 @@ Default JSON Settings:
     "save-covers-in-epub": true,
     "save-covers-in-folder": false,
     "file-name": "author-title-date",
-    "console-printout": "full"
+    "console-printout": "full",
+    "cover-method": "calibre cover"
 }
 
 

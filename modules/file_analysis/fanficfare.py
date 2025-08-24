@@ -10,7 +10,10 @@ from .meta import getSourcePublisher, getListRelationship, getTagsRelationship, 
 
 #------------------------------------------------------------------------------------
 
-def metaFanFicFare(book, warning, relationship, rating, complete, source, consPrint) :
+#FanFicFare has the most comprehensive EPUB creation for fanfic, and includes almost all necessary elements
+#FanFicFare should be searched for first in order to take advantage of its .opf file
+
+def metaFanFicFare(book, consPrint) :
 
     if consPrint :
         print ("FanFicFare tags found")
@@ -23,6 +26,7 @@ def metaFanFicFare(book, warning, relationship, rating, complete, source, consPr
     t = HTMLCharacterSwap(t)
     d_array = book.get_metadata('DC', 'date')
 
+    #most recent updated date (FFF only)
     for date in d_array:
         if date[1] == {'{http://www.idpf.org/2007/opf}event': 'modification'} :
             d = date[0]
@@ -31,6 +35,12 @@ def metaFanFicFare(book, warning, relationship, rating, complete, source, consPr
         d = d.split('T', 1)[0]
 
     print ("File: " + a + " - " + t)
+
+    warning = ""
+    relationship = []
+    rating = ""
+    complete = ""
+    source = ""
 
     #source
     source = getSourcePublisher(book)
@@ -45,22 +55,25 @@ def metaFanFicFare(book, warning, relationship, rating, complete, source, consPr
                 pageData = pageData.decode("utf-8") #convert byte to string
 
                 #warning
-                warning = getListWarning(pageData, warning, source)
+                if warning == '' :
+                    warning = getListWarning(pageData, warning, source)
 
-                #TODO: WHAT WAS GENRE FOR?
-                genre = re.search(r'genre:.*?<br/>', pageData.lower()) #get string of Genre: [. . . ] <br/>, with the first known instance of <br/>
+                #FFN tags, also in <dc:subject>
+                #genre = re.search(r'genre:.*?<br/>', pageData.lower()) #get string of Genre: [. . . ] <br/>, with the first known instance of <br/>
 
                 #relationship
                 relationship = getListRelationship(pageData, relationship)
 
                 #rating
-                rating = getListRating(pageData, rating)
-                if 'WARNING: This story contains mature' in pageData:
-                    #wattpad's mature
-                    rating = "M"
+                if rating == '' :
+                    rating = getListRating(pageData, rating)
+                    if 'WARNING: This story contains mature' in pageData:
+                        #wattpad's mature
+                        rating = "M"
 
                 #complete
-                complete = getListComplete(pageData, complete)
+                if complete == '' :
+                    complete = getListComplete(pageData, complete)
 
     #relationship (AO3 tags)
     relationship = getTagsRelationship(book, relationship)
